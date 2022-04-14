@@ -1,0 +1,31 @@
+name: 'snapshot'
+on: # rebuild any PRs and main branch changes
+  pull_request:
+  push:
+    branches:
+      - main
+      - master
+      - 'releases/*'
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: Confirm the output
+        run: |
+          echo "${{ env.GRAPH }}"
+      - name: Check out action repository
+        uses: actions/checkout@v3
+        with:
+          repository: github/dependency_snapshot_action
+          path: dependency_snapshot_action
+          token: ${{ secrets.REPO_TOKEN }}
+          # path: path/to/package-root # optional (TODO)
+      - name: Confirm checkout
+        run: |
+          echo "HELLO & $PWD" & ls -la
+      - name: Run snapshot action
+        uses: ./dependency_snapshot_action
+        with:
+          token: ${{ secrets.REPO_TOKEN }}
