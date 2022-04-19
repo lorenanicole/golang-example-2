@@ -12,9 +12,6 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
-      - name: Confirm the output
-        run: |
-          echo "${{ env.GRAPH }}"
       - name: Check out action repository
         uses: actions/checkout@v3
         with:
@@ -22,9 +19,6 @@ jobs:
           path: dependency_snapshot_action
           token: ${{ secrets.REPO_TOKEN }}
           # path: path/to/package-root # optional (TODO)
-      - name: Confirm checkout
-        run: |
-          echo "HELLO & $PWD" & ls -la
       - name: Run snapshot action
         uses: ./dependency_snapshot_action
         with:
