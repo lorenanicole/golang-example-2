@@ -4,7 +4,6 @@ on: # rebuild any PRs and main branch changes
   push:
     branches:
       - main
-      - master
       - 'releases/*'
 jobs:
   snapshot:
@@ -18,8 +17,9 @@ jobs:
           repository: dsp-testing/go-snapshot-action
           path: go-snapshot-action
           token: ${{ secrets.REPO_TOKEN }}
-          # path: path/to/package-root # optional (TODO)
       - name: Run snapshot action
         uses: ./go-snapshot-action
         with:
-          token: ${{ secrets.REPO_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          detector-url: ${{ github.server_url }}/${{ github.repository }}
+          detector-version: '1.0.0'
